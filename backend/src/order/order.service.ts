@@ -6,15 +6,16 @@ import { faker } from '@faker-js/faker';
 @Injectable()
 export class OrderService {
   constructor(private readonly filmsRepository: FilmsRepository) {}
+
   async createOrder(order: CreateOrderDTO): Promise<CreateTicketDTO[]> {
     const tickets: CreateTicketDTO[] = [];
     for (const ticket of order.tickets) {
       const { film, session, row, seat } = ticket;
       const currentFilm = await this.filmsRepository.findById(film);
       if (!currentFilm) {
-        throw new BadRequestException(`Фильм с id ${film} не найден`);
+        throw new BadRequestException(`Фильм с id=${film} не найден`);
       }
-      const schedule = currentFilm.schedule?.find((s) => s.id === session);
+      const schedule = currentFilm.schedules.find((s) => s.id === session);
       if (!schedule) {
         throw new BadRequestException(`Сеанс с id ${session} не найден`);
       }
@@ -22,10 +23,7 @@ export class OrderService {
       if (schedule.taken?.includes(place)) {
         throw new BadRequestException(`Место ${place} занято`);
       }
-
-      schedule.taken = schedule.taken || [];
-      schedule.taken.push(place);
-
+      schedule.taken = schedule.taken + ',' + place;
       tickets.push({
         id: faker.string.uuid(),
         film,
@@ -35,7 +33,6 @@ export class OrderService {
         daytime: schedule.daytime,
         price: schedule.price,
       });
-
       await this.filmsRepository.updateFilmSession(
         film,
         session,

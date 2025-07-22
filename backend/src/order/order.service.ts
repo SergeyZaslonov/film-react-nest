@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateOrderDTO, CreateTicketDTO } from './dto/order.dto';
-import { FilmsRepository } from 'src/repository/films.repository';
+import { FilmsRepository } from '../repository/films.repository';
 import { faker } from '@faker-js/faker';
 
 @Injectable()

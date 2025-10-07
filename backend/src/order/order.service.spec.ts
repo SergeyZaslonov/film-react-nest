@@ -4,9 +4,19 @@ import { OrderService } from './order.service';
 describe('OrderService', () => {
   let service: OrderService;
 
+  const mockFilmRepository = {
+    findOne: jest.fn(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OrderService],
+      providers: [
+        OrderService,
+        {
+          provide: OrderService,
+          useValue: mockFilmRepository,
+        }
+      ],
     }).compile();
 
     service = module.get<OrderService>(OrderService);

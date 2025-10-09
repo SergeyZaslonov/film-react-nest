@@ -5,7 +5,7 @@ on:
       - review-2
 
 env:
-  OWNER: rtp3
+  OWNER: sergeyzaslonov
 
 jobs:
   build-images:

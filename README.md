@@ -1,5 +1,10 @@
 # FILM!
 
+web: http://rtp3.nomorepartiessbs.ru/
+api: http://rtp3.nomorepartiessbs.ru:3000
+PgAdmin: http://rtp3.nomorepartiessbs.ru:8081
+
+
 ## Установка
 
 ### MongoDB
